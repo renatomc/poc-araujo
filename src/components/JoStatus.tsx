@@ -43,7 +43,12 @@ export function JoStatus() {
   console.log({ status })
 
   return (
-    <div className={`transition-opacity opacity-${fadeIn ? '5' : '100'}`}>
+    <div
+      style={{
+        transition: 'all 0.2',
+        opacity: `${fadeIn ? '0.2' : '1'}`,
+      }}
+    >
       {status?.img && (
         <div className="flex flex-col items-center gap-10">
           <div className="relative h-[164px] w-[136px]">
