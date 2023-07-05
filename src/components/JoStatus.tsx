@@ -40,8 +40,6 @@ export function JoStatus() {
     }, 500)
   }, [status])
 
-  console.log({ status })
-
   return (
     <div
       style={{

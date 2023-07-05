@@ -5,8 +5,7 @@ import { NoData } from './NoData'
 import { Loader } from './Loader'
 
 export function FormData() {
-  const { dataResponse, isLoading, loaderStatus } = useGlobalContext()
-  console.log({ isLoading, loaderStatus, dataResponse })
+  const { dataResponse, isLoading } = useGlobalContext()
 
   return (
     <>
