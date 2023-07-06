@@ -15,7 +15,7 @@ export default function Home() {
             </div>
             <FormRequest />
           </div>
-          <div className="sm:invisible sm:hidden lg:ml-20 lg:h-5/6 lg:w-1 lg:bg-gray-300"></div>
+          <div className="sm:invisible sm:hidden lg:visible lg:ml-20 lg:block lg:h-5/6 lg:w-1 lg:bg-gray-300"></div>
         </div>
 
         <div className="flex flex-col pb-8 sm:col-span-4 sm:mb-8 lg:col-span-8 lg:p-16 lg:pb-0">
