@@ -12,7 +12,7 @@ export function FormRequest() {
   const [ean, setEan] = useState<string>('')
 
   const { setDataRequest, handleGetData } = useGlobalContext()
-  const [isRequiredError, setIsRequiredError] = useState(false);
+  const [isRequiredError, setIsRequiredError] = useState(false)
 
   useEffect(() => {
     setDataRequest({
@@ -23,13 +23,13 @@ export function FormRequest() {
 
   const handleClickSearch = useCallback(() => {
     if (!name || !ean) {
-      setIsRequiredError(true); 
-      return;
+      setIsRequiredError(true)
+      return
     }
-  
-    setIsRequiredError(false); 
-    handleGetData();
-  }, [name, ean, handleGetData]);
+
+    setIsRequiredError(false)
+    handleGetData()
+  }, [name, ean, handleGetData])
 
   const handleClear = useCallback(() => {
     setName('')
@@ -48,7 +48,7 @@ export function FormRequest() {
         />
         {isRequiredError && !name && (
           <span className="text-red-500">Campo obrigatório.</span>
-      )}
+        )}
         <Input
           name="EAN"
           placeholder="Informe o código EAN"
@@ -57,8 +57,8 @@ export function FormRequest() {
           required
         />
         {isRequiredError && !ean && (
-        <span className="text-red-500">Campo obrigatório.</span>
-      )}
+          <span className="text-red-500">Campo obrigatório.</span>
+        )}
       </div>
       <div className="flex flex-col">
         <Button name="Buscar" onClick={handleClickSearch} />
