@@ -14,17 +14,17 @@ export function JoStatus() {
   const { isLoading, dataResponse } = useGlobalContext()
 
   const status = useMemo(() => {
-    if (!isLoading && !dataResponse.name) {
+    if (!isLoading && !dataResponse?.response?.nome) {
       return {
         img: joAtencao,
         text: 'Preencha e busque para exibir resultados!',
       }
-    } else if (isLoading && !dataResponse.name) {
+    } else if (isLoading && !dataResponse?.response?.nome) {
       return {
         img: joDuvida,
         text: 'Um instante, estamos buscando os dados!',
       }
-    } else if (!isLoading && dataResponse.name) {
+    } else if (!isLoading && dataResponse?.response?.nome) {
       return {
         img: joSucesso,
         text: 'Fique a vontade para pesquisar outros produtos!',
