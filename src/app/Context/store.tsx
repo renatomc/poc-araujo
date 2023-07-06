@@ -1,6 +1,11 @@
 'use client'
 
 import {
+  getProductDetails,
+  getTemplateOptions,
+} from '@/services/questionServices'
+import { QuestionResponseData } from '@/services/types/questionResponseType'
+import {
   createContext,
   useContext,
   Dispatch,
@@ -10,11 +15,6 @@ import {
   useCallback,
 } from 'react'
 
-type ResponseData = {
-  name: string
-  description: string
-}
-
 type RequestData = {
   name: string
   ean: string
@@ -23,13 +23,26 @@ type RequestData = {
 interface ContextProps {
   setDataRequest: Dispatch<SetStateAction<RequestData>>
   handleGetData: () => void
-  dataResponse: ResponseData
+  dataResponse: QuestionResponseData
   isLoading: boolean
   loaderStatus: number
 }
 
 const GlobalContext = createContext<ContextProps>({
-  dataResponse: { description: '', name: '' },
+  dataResponse: {
+    response: {
+      categoria: '',
+      composicao_simplificada: '',
+      contra_indicacao: '',
+      descricao: '',
+      descricao_detalhada: '',
+      ean: '',
+      fabricantes: '',
+      indicacao_de_uso: '',
+      marcas: '',
+      nome: '',
+    },
+  },
   setDataRequest: (): RequestData => {
     return { ean: '', name: '' }
   },
@@ -45,8 +58,8 @@ export const GlobalContextProvider = ({ children }) => {
     undefined,
   )
   const [dataRequest, setDataRequest] = useState<RequestData>({} as RequestData)
-  const [dataResponse, setDataResponse] = useState<ResponseData>(
-    {} as ResponseData,
+  const [dataResponse, setDataResponse] = useState<QuestionResponseData>(
+    {} as QuestionResponseData,
   )
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -78,17 +91,32 @@ export const GlobalContextProvider = ({ children }) => {
     }
   }, [isLoading, intervalId])
 
-  const handleGetData = useCallback(() => {
-    setIsLoading(true)
-    setDataResponse({} as ResponseData)
-    setTimeout(() => {
-      setDataResponse({
-        description: 'Teste descrição',
-        name: dataRequest.name,
-      })
-      setIsLoading(false)
-    }, 2000)
+  const getTemplateRequest = useCallback(async (): Promise<string> => {
+    const response = await getTemplateOptions()
+    if (response.length > 0) {
+      const [template] = response
+      let templateResponse = template.content.replace(
+        '{product_name}',
+        dataRequest.name,
+      )
+      templateResponse = templateResponse.replace(
+        '{product_ean}',
+        dataRequest.ean,
+      )
+
+      return templateResponse
+    }
+    return ''
   }, [dataRequest])
+
+  const handleGetData = useCallback(async () => {
+    setIsLoading(true)
+    const template = await getTemplateRequest()
+    const response = await getProductDetails(template)
+    console.log({ dados: response })
+    setDataResponse(response)
+    setIsLoading(false)
+  }, [getTemplateRequest])
 
   return (
     <GlobalContext.Provider
