@@ -22,18 +22,17 @@ export function FormRequest() {
   }, [name, ean, setDataRequest])
 
   const handleClickSearch = useCallback(() => {
-    if (!name || !ean) {
-      setIsRequiredError(true)
-      return
-    }
-
     setIsRequiredError(false)
+    if (!name || !ean) {
+      return setIsRequiredError(true)
+    }
     handleGetData()
   }, [name, ean, handleGetData])
 
   const handleClear = useCallback(() => {
     setName('')
     setEan('')
+    setIsRequiredError(false)
   }, [setName, setEan])
 
   return (
@@ -44,7 +43,6 @@ export function FormRequest() {
           placeholder="Informe o nome do produto"
           setValue={setName}
           value={name}
-          required
         />
         {isRequiredError && !name && (
           <span className="text-red-500">Campo obrigatório.</span>
@@ -54,7 +52,6 @@ export function FormRequest() {
           placeholder="Informe o código EAN"
           setValue={setEan}
           value={ean}
-          required
         />
         {isRequiredError && !ean && (
           <span className="text-red-500">Campo obrigatório.</span>
